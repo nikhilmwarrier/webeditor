@@ -90,10 +90,7 @@ const htmlEditor = CodeMirror(document.querySelector(".html-editor"), {
   },
 });
 
-emmetCodeMirror(htmlEditor, {
-  'Tab': 'emmet.expand_abbreviation_with_tab',
-  'Alt-E': 'emmet.expand_abbreviation_with_tab',
-});
+emmetCodeMirror(htmlEditor);
 
 const cssEditor = CodeMirror(document.querySelector(".css-editor"), {
   extraKeys: { "Ctrl-Space": "autocomplete" },
@@ -111,10 +108,7 @@ const cssEditor = CodeMirror(document.querySelector(".css-editor"), {
   autoCloseBrackets: true,
 });
 
-emmetCodeMirror(cssEditor, {
-  'Tab': 'emmet.expand_abbreviation_with_tab',
-  'Alt-E': 'emmet.expand_abbreviation_with_tab',
-});
+emmetCodeMirror(cssEditor);
 
 const jsEditor = CodeMirror(document.querySelector(".js-editor"), {
   extraKeys: { "Ctrl-Space": "autocomplete" },
@@ -132,10 +126,7 @@ const jsEditor = CodeMirror(document.querySelector(".js-editor"), {
   autoCloseBrackets: true,
 });
 
-emmetCodeMirror(jsEditor, {
-  'Tab': 'emmet.expand_abbreviation_with_tab',
-  'Alt-E': 'emmet.expand_abbreviation_with_tab',
-});
+emmetCodeMirror(jsEditor);
 
 function appendStyles() {
   let styles = output.document.createElement("style");
