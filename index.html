@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="cm/codemirror.css" />
+    <link rel="stylesheet" href="cm/addon/hint/show-hint.css" />
+    <link rel="stylesheet" href="cm/theme/vscode-dark.css" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Fluid WebEditor</title>
+  </head>
+  <body>
+    <div class="popup-overlay" id="settings-popup">
+      <div class="popup">
+        <div class="header">
+          <h3>Settings</h3>
+        </div>
+        <div class="popupcontent">
+          <label for="project-name-input">Project Name:</label>
+          <input type="text" name="" id="project-name-input" />
+        </div>
+        <div class="footer">
+          <button class="btn" onclick="dissmissSettings()">Cancel</button>
+          <button class="btn btn-cta" onclick="saveSettings()">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <main>
+      <div class="sidebar">
+        <!-- <h5>Sidebar</h5> -->
+      </div>
+      <div class="menu">
+        <div class="left">
+          <span class="menu-item" data-for-submenu="File" tabindex="0"
+            >File</span
+          >
+          <div class="submenu" data-submenu="File">
+            <span class="submenu-item" onclick="showSettings()">Settings</span>
+            <span class="submenu-item">Save As</span>
+            <span class="submenu-item">Exit</span>
+          </div>
+
+          <span class="menu-item" data-for-submenu="Edit" tabindex="0"
+            >Edit</span
+          >
+          <div class="submenu" data-submenu="Edit">
+            <span
+              class="submenu-item"
+              onclick="document.execCommand('cut', false, null)"
+              >Cut</span
+            >
+            <span class="submenu-item">Copy</span>
+            <span class="submenu-item">Paste</span>
+          </div>
+          <span class="menu-item" data-for-submenu="View" tabindex="0"
+            >View</span
+          >
+          <div class="submenu" data-submenu="View">
+            <span
+              class="submenu-item"
+              onclick="document.documentElement.style.setProperty('--editor-width', `100%`);"
+              >Expand Editor</span
+            >
+            <span
+              class="submenu-item"
+              onclick="document.documentElement.style.setProperty('--editor-width', `0%`);"
+              >Expand Preview</span
+            >
+            <span
+              class="submenu-item"
+              onclick="document.documentElement.style.setProperty('--editor-width', `70%`);"
+              >Split Both</span
+            >
+            <span
+              class="submenu-item"
+              onclick="window.open('./preview.html', '_blank')"
+              >Open Preview in New Tab</span
+            >
+          </div>
+          <span class="menu-item" data-for-submenu="Help" tabindex="0"
+            >Help</span
+          >
+          <div class="submenu" data-submenu="Help">
+            <span
+              class="submenu-item"
+              onclick="window.open('./about.html', '_blank')"
+              >About</span
+            >
+            <span class="submenu-item">Documentation</span>
+            <span
+              class="submenu-item"
+              onclick="window.open('https://github.com/nikhilmwarrier', '_blank')"
+              >GitHub</span
+            >
+          </div>
+          <div class="spacer-menu-vertical"></div>
+          <span class="menu-item" id="run-btn" onclick="run()" tabindex="0">
+            <span class="run-icon" id="run-icon"></span>
+            Run</span
+          >
+        </div>
+        <!-- <div class="right">
+          <span class="menu-item" style="font-size: 1.5rem">&times;</span>
+        </div> -->
+      </div>
+      <div class="tabbar">
+        <div class="tab tab-active" data-for-tab="1">
+          <img src="res/editor_icons/html.svg" />
+          <span class="tab-text"> HTML </span>
+          <span class="tab-dot" id="tab-dot-html"></span>
+        </div>
+        <div class="tab" data-for-tab="2">
+          <img src="res/editor_icons/css.svg" />
+          <span class="tab-text"> CSS </span>
+          <span class="tab-dot" id="tab-dot-css"></span>
+        </div>
+        <div class="tab" data-for-tab="3">
+          <img src="res/editor_icons/js.svg" />
+          <span class="tab-text">JavaScript </span>
+          <span class="tab-dot" id="tab-dot-js"></span>
+        </div>
+      </div>
+      <div class="workspace">
+        <div class="code-area">
+          <div
+            class="html-editor content content-active"
+            id="index.html"
+            contenteditable
+            data-tab="1"
+          ></div>
+          <div
+            class="css-editor content"
+            id="styles.css"
+            contenteditable
+            data-tab="2"
+          ></div>
+          <div
+            class="js-editor content"
+            id="app.js"
+            contenteditable
+            data-tab="3"
+          ></div>
+        </div>
+        <div id="dragme" tabindex="0">
+          <div class="handle"></div>
+        </div>
+        <div class="preview-area">
+          <iframe name="output" frameborder="0"></iframe>
+          <!-- <div class="console">
+            <div
+              class="header"
+              id="console-header"
+              onclick="hideElem('.console')"
+            >
+              Console
+            </div>
+          </div> -->
+        </div>
+      </div>
+      <footer>
+        <!-- <span class="btn" onclick="showElem('.console')">Console</span>
+        <span class="btn">Layout</span> -->
+      </footer>
+    </main>
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="/__/firebase/8.2.1/firebase-app.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+    <script src="/__/firebase/8.2.1/firebase-analytics.js"></script>
+
+    <!-- Initialize Firebase -->
+    <script src="/__/firebase/init.js"></script>
+    <script src="cm/codemirror.js"></script>
+    <script src="cm/mode/xml/xml.js"></script>
+    <script src="cm/mode/htmlmixed/htmlmixed.js"></script>
+    <script src="cm/mode/css/css.js"></script>
+    <script src="cm/mode/javascript/javascript.js"></script>
+    <!-- <script src="cm/addon/emmet/emmet.js"></script> -->
+    <script src="cm/addon/fold/xml-fold.js"></script>
+    <script src="cm/addon/edit/matchbrackets.js"></script>
+    <script src="cm/addon/edit/closebrackets.js"></script>
+    <script src="cm/addon/edit/matchtags.js"></script>
+    <script src="cm/addon/edit/closetag.js"></script>
+    <script src="cm/addon/hint/show-hint.js"></script>
+    <script src="cm/addon/hint/javascript-hint.js"></script>
+    <script src="cm/addon/hint/xml-hint.js"></script>
+    <script src="cm/addon/hint/html-hint.js"></script>
+    <script src="cm/addon/hint/css-hint.js"></script>
+    <script src="cm/addon/emmet/emmet.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/emmetio-codemirror-plugin-webextensions@0.3.7/dist/emmet-codemirror-plugin.cjs.min.js"></script> -->
+    <script src="app.js"></script>
+  </body>
+</html>

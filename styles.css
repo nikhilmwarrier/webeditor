@@ -1,0 +1,478 @@
+:root {
+  --editor-width: 70%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+  max-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+  height: 100%;
+  max-height: 100vh;
+  width: 100%;
+}
+
+main {
+  color: #fff;
+  font-family: sans-serif;
+  height: 100vh;
+  max-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 30px 35px 1fr 22px;
+  grid-template-areas:
+    "menu       menu      "
+    "tabs       tabs      "
+    "workspace  workspace "
+    "footer     footer    ";
+}
+
+.menu {
+  position: relative;
+  background-color: #2a2a2c;
+  grid-area: menu;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.left,
+.right {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu .menu-item {
+  position: relative;
+  color: #e7e7e7;
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 0 10px;
+  font-size: 13px;
+  font-family: "Roboto", sans-serif;
+  transition: all 0.1s ease;
+}
+
+.menu .menu-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.spacer-menu-vertical {
+  margin: 0 5px;
+  height: 45%;
+  width: 1px;
+  background: #bcbcbc;
+}
+
+span.run-icon {
+  height: 0;
+  width: 0;
+  border: 4px solid transparent;
+  border-left: 6px solid #fff;
+  margin: 0 2px;
+}
+
+span.run-spinner {
+  height: 10px;
+  width: 10px;
+  border: 2px solid #fff;
+  border-top-color: transparent;
+  border-right-color: #ccc;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+  margin: 0 4px 0 0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0turn);
+  }
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+.submenu {
+  position: absolute;
+  top: 30px;
+  left: 20px;
+  color: #fff;
+  font-family: "Roboto", sans-serif;
+  width: auto;
+  min-width: 185px;
+  height: auto;
+  background: #3a3a3a;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  font-size: 0.8rem;
+  box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.submenu:first-of-type {
+  left: 20px;
+}
+
+.submenu-item {
+  user-select: none;
+  cursor: pointer;
+  padding: 10px 10px;
+}
+
+.submenu-item:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-submenu] {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* [data-for-submenu="File"]:hover + [data-submenu="File"], */
+[data-for-submenu="File"]:focus + [data-submenu="File"],
+[data-for-submenu="File"]:active + [data-submenu="File"],
+[data-submenu="File"]:hover,
+[data-submenu="File"]:focus,
+[data-submenu="File"]:active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* [data-for-submenu="Edit"]:hover + [data-submenu="Edit"], */
+[data-for-submenu="Edit"]:focus + [data-submenu="Edit"],
+[data-for-submenu="Edit"]:active + [data-submenu="Edit"],
+[data-submenu="Edit"]:hover,
+[data-submenu="Edit"]:focus,
+[data-submenu="Edit"]:active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* [data-for-submenu="View"]:hover + [data-submenu="View"], */
+[data-for-submenu="View"]:focus + [data-submenu="View"],
+[data-for-submenu="View"]:active + [data-submenu="View"],
+[data-submenu="View"]:hover,
+[data-submenu="View"]:focus,
+[data-submenu="View"]:active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+/* [data-for-submenu="Help"]:hover + [data-submenu="Help"], */
+[data-for-submenu="Help"]:focus + [data-submenu="Help"],
+[data-for-submenu="Help"]:active + [data-submenu="Help"],
+[data-submenu="Help"]:hover,
+[data-submenu="Help"]:focus,
+[data-submenu="Help"]:active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.sidebar {
+  background-color: #3a3a3a;
+  grid-area: sidebar;
+}
+
+.tabbar {
+  background: #2a2a2c;
+  grid-area: tabs;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.tab {
+  cursor: pointer;
+  height: 100%;
+  padding: 10px 20px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: none;
+  user-select: none;
+  border-top: 3px solid transparent;
+}
+
+.tab.tab-active {
+  background: #1e1e1e;
+  border-top-color: #0285d3;
+}
+
+.tab img {
+  height: 1.2rem;
+  width: 1.2rem;
+}
+
+.tab .tab-text {
+  color: rgb(192, 192, 192);
+  margin: 0 0.5rem;
+  font-family: "Roboto", sans-serif;
+  font-size: 0.9rem;
+}
+
+.tab .tab-dot {
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 50%;
+}
+
+.tab .unsaved {
+  background: rgb(192, 192, 192);
+}
+
+.tab.tab-active .unsaved {
+  background: #fff;
+}
+
+.tab.tab-active .tab-text {
+  color: rgb(238, 238, 238);
+}
+
+.workspace {
+  grid-area: workspace;
+  display: flex;
+}
+
+.code-area {
+  position: relative;
+  background: #1e1e1e;
+  height: 100%;
+  max-height: 100%;
+  width: var(--editor-width);
+  /* flex-grow: 0;
+  flex-shrink: 0; */
+}
+
+.preview-area {
+  position: relative;
+  background: #0a0a0a;
+  height: 100%;
+  width: calc(100% - var(--editor-width));
+  /* flex-grow: 0;
+  flex-shrink: 0; */
+}
+
+iframe {
+  height: 100%;
+  width: 100%;
+  background-color: #fff;
+}
+
+.console {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  height: 50%;
+  width: 100%;
+  z-index: 10;
+  background-color: #1e1e1e;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 30px 1fr;
+  grid-template-areas: "header" "content";
+}
+
+.console .header {
+  grid-area: header;
+  background: #3a3a3a;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+}
+
+#dragme {
+  position: relative;
+  z-index: 10;
+  height: 100%;
+  width: 10px;
+  background-color: #2a2a2c;
+  cursor: ew-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#dragme .handle {
+  height: 20px;
+  width: 3px;
+  background: #fff;
+  border-radius: 999px;
+}
+
+.html-editor {
+  height: 100%;
+  max-height: 100%;
+}
+
+.cm-s-vscode-dark {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-family: "Fira Code", monospace;
+  height: 100%;
+  max-height: 100%;
+  /* overflow-y: auto; */
+}
+
+.CodeMirror {
+  overflow: hidden;
+}
+
+footer {
+  background-color: #0285d3;
+  grid-area: footer;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 20px;
+  font-size: 0.8rem;
+  font-family: "Roboto", sans-serif;
+}
+
+footer .btn {
+  user-select: none;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  transition: all 0.2s;
+  margin: 0;
+}
+
+footer .btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+footer .btn:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.content {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.content-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.popup-overlay {
+  position: fixed;
+  height: 100vh;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 12;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-overlay .popup {
+  min-height: 300px;
+  min-width: 300px;
+  background: #3a3a3a;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px 1fr 50px;
+  grid-template-areas: "header" "popupcontent" "footer";
+  color: #fff;
+}
+
+.popup * {
+  font-family: "Roboto", sans-serif;
+}
+
+.popup .header {
+  grid-area: header;
+  padding: 30px 20px 0 30px;
+  display: flex;
+  align-items: center;
+}
+
+.popup .popupcontent {
+  position: relative;
+  grid-area: popupcontent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.popup input {
+  appearance: none;
+  -webkit-appearance: none;
+  background: #fff;
+  margin: 10px 5px 10px 0;
+  border: none;
+  padding: 5px 10px;
+  font-family: "Roboto";
+  width: 90%;
+}
+
+.popup .btn {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0 5px;
+  border: none;
+  padding: 5px 10px;
+  font-size: 0.8rem;
+  background: #fff;
+  color: #0a0a0a;
+  transition: all 0.1s;
+}
+
+.popup .btn.btn-cta {
+  background: #0285d3;
+  color: #fff;
+}
+
+.popup .btn.btn-cta:active {
+  background: #0171b3;
+}
+
+.popup .btn:active {
+  background: #ccc;
+}
+
+.popup .footer {
+  grid-area: footer;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
