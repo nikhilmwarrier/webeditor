@@ -1,0 +1,9 @@
+{
+    "name": "Fluid WebEditor",
+    "short_name": "WebEditor",
+    "version": "0.5",
+    "theme_color": "#2a2a2c",
+    "background_color": "#2a2a2c",
+    "display": "standalone",
+    "start_url": "index.html"
+  }
